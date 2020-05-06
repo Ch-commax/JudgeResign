@@ -9,24 +9,22 @@ import android.util.Log;
 public class SignatureWithJava {
 
     private static String TAG = "resign";
-    private static int originCode = 1459663815;//签名信息
+    private static int originCode = 1459663815;
 
-    //返回签名的hash值
     public static int getSignature(Context context) {
         PackageManager pm = context.getPackageManager();
         PackageInfo pi;
-        StringBuilder sb = new StringBuilder();
+        String result = "";
         try {
             pi = pm.getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES);
             Signature[] signatures = pi.signatures;
-            for (Signature signature : signatures) {
-                sb.append(signature.toCharsString());
-            }
+            Log.e(TAG, "length : " + signatures.length);
+            result = signatures[0].toCharsString();
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
         }
-        Log.e(TAG, "sign : " + sb.toString());
-        return sb.toString().hashCode();
+        Log.e(TAG, "sign : \n" + result);
+        return result.hashCode();
     }
 
     public static boolean checkSignature(Context context) {
